@@ -4,6 +4,5 @@
   "type": "module",
   "main": "./src/index.ts",
   "dependencies": {
-    "@blackbird/spotify-utils": "workspace:^"
   }
 }
