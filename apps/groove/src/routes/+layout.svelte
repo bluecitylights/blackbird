@@ -1,12 +1,40 @@
 <script>
 	import Header from './Header.svelte';
 	import './styles.css';
+	import { page } from "$app/stores";
+	import { signIn, signOut } from "@auth/sveltekit/client";
 </script>
 
 <div class="app">
 	<Header />
 
 	<main>
+		<h1>SvelteKit Auth Example</h1>
+		<p>
+			{#if $page.data.session}
+				{#if $page.data.session.user?.image}
+				<span
+					style="background-image: url('{$page.data.session.user.image}')"
+					class="avatar"
+				/>
+				{/if}
+				<span class="signedInText">
+					<small>Signed in as</small><br />
+					<strong>{$page.data.session.user?.name ?? "User"}</strong>
+				</span>
+				<button on:click={() => signOut()} class="button">Sign out</button>
+			{:else}
+				<span class="notSignedInText">You are not signed in</span>
+				<button on:click={() => signIn("spotify")}>Sign In with Spotify</button>
+			{/if}
+		</p>
+
+		<nav>
+			<ul class="navItems">
+			  <li class="navItem"><a href="/">Home</a></li>
+			  <li class="navItem"><a href="/protected">Protected</a></li>
+			</ul>
+		  </nav>
 		<slot />
 	</main>
 
